@@ -1,11 +1,11 @@
 from random import random, randint
 from numpy import zeros
 from pylab import imshow, show, ion, ioff, draw, scatter, plot
-from math import pi, sin, exp
+from math import pi, sin, exp, sqrt
 
-T=300000000
-Nx = 100
-Ny = 100
+T=30000000
+Nx = 500
+Ny = 500
 b = 1
 Temp = 1
 
@@ -18,7 +18,8 @@ def initialize():
 	return U
 
 def f(x,y):
-	return sin(2*pi*x)*sin(2*pi*y)
+	r = sqrt((x-.5)**2 + (y-.5)**2)
+	return sin(12*pi*r)
 
 def update(d,x,y):
 	if d==0 and x+1 < Nx-1:
@@ -42,8 +43,13 @@ def main():
 	y = Ny//2
 	xtraj = []
 	ytraj = []
+	ion()
 	for t in range(T):
-		print float(t)/T*100
+		if t%(T/100) == 0:
+			imshow(traveled, interpolation="nearest")
+			draw()
+			print float(t)/T*100
+		##b = float(t)/T
 		xtraj.append(x)
 		ytraj.append(y)	
 		traveled[x,y] += 1	
@@ -51,13 +57,12 @@ def main():
 		x1,y1 = update(d,x,y)
 		U0 = U[x,y]
 		U1 = U[x1,y1]
-		p = exp(b*Temp*(U0-U1))
+		p = exp(b*(U0-U1))
 		if random() < p:
 			x,y = x1,y1
 	#imshow(U)
-	#show()
-	imshow(traveled)
+	print b
+	#imshow(traveled)
 	#plot(xtraj,ytraj)
-	show()
 
 main()
