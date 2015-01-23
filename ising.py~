@@ -5,7 +5,7 @@ import numpy as np
 from pylab import ion, draw, imshow, plot, show
 
 b = 1
-L = 100
+L = 300
 T = 1000000
 J = 1
 H = 0
