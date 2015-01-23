@@ -15,14 +15,15 @@ def initialize():
 	for i in range(Nx):
 		for j in range(Ny):
 			U[i,j] = f(float(i)/Nx,float(j)/Ny)
-	#imshow(U)
-	#show()
+	imshow(U)
+	
+	show()
 	return U
 
 def f(x,y):
 	r = sqrt((x-.5)**2 + (y-.5)**2)
 	#return sin(12*pi*r)
-	return sin(2*pi*x)*sin(2*pi*y)
+	return sin(2*pi*x)*sin(3*pi*y)
 
 def update(d,x,y):
 	if d==0 and x+1 < Nx-1:
@@ -79,24 +80,20 @@ def normalize(C):
 def mainSim():
 	traveled = zeros([Nx,Ny], int)
 	U =	initialize()
-	x = randint(1,Nx-2)
-	y = randint(1,Nx-2)
+
 	x = Nx//2
 	y = Ny//2
 	xtraj = []
 	ytraj = []
 	zonelist = []
 	ion()
+	x = randint(1,Nx-2)
+	y = randint(1,Nx-2)	
 	for t in range(T):
-		if t%(T/10) == 0:
-	#		imshow(traveled, interpolation="nearest")
-	#		draw()
+		if t%(T/100) == 0:
+			imshow(traveled, interpolation="nearest")
+			draw()
 			print float(t)/T*100
-		zone = getZone(x,y)
-		zonelist.append(zone)
-		xtraj.append(x)
-		ytraj.append(y)	
-		traveled[x,y] += 1	
 		d = randint(0,3)
 		x1,y1 = update(d,x,y)
 		U0 = U[x,y]
@@ -104,6 +101,11 @@ def mainSim():
 		p = exp(b*(U0-U1))
 		if random() < p:
 			x,y = x1,y1
+		zone = getZone(x,y)
+		zonelist.append(zone)
+		xtraj.append(x)
+		ytraj.append(y)	
+		traveled[x,y] += 1				
 	ioff()
 	C = constructMSM(zonelist)
 	return C
