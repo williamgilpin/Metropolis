@@ -15,7 +15,9 @@ def initialize():
 	for i in range(Nx):
 		for j in range(Ny):
 			U[i,j] = f(float(i)/Nx,float(j)/Ny)
-
+	imshow(U)
+	
+	show()
 	return U
 
 def f(x,y):
