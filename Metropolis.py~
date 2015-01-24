@@ -91,7 +91,7 @@ def mainSim():
 		if t%(T/100) == 0:
 			imshow(traveled, interpolation="nearest")
 			draw()
-			print (float(t)/T*100)
+			print float(t)/T*100
 		d = randint(0,3)
 		x1,y1 = update(d,x,y)
 		U0 = U[x,y]
